@@ -84,12 +84,22 @@ export function useHeartRate(
                 time: new Date(raw.timestamp).toISOString(),
                 bpm: raw.value,
               };
+      
               setData((prev) => {
                 const next = [...prev, point];
                 return next.length > maxPoints
                   ? next.slice(next.length - maxPoints)
                   : next;
               });
+      
+              fetch('/api/data', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(point),
+              }).catch((e) => {
+                console.error('Failed to persist point:', e);
+              });
+      
             } else {
               console.warn('Unexpected payload shape:', evt.data);
             }
@@ -100,7 +110,7 @@ export function useHeartRate(
           // Ignore non-JSON or heartbeat messages
           console.debug('Ignored non-JSON WS message:', evt.data);
         }
-      };
+      };      
     };
 
     connect();

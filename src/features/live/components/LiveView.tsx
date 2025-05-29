@@ -26,7 +26,7 @@ ChartJS.register(
 );
 
 export default function LiveView() {
-  const [debug, setDebug] = useState(true);
+  const [debug, setDebug] = useState(false);
   const isProd = process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
   const scheme = isProd ? 'wss' : 'ws';
   // I would env var normally but for a test I'm just hardcoding the URL switch
