@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aide Health Tech Test
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+* Node.js v18+ and npm
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Clone the repo**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   ```bash
+   git clone https://github.com/sandmule/aide-tech-test.git
+   cd aide-tech-test
+   ```
 
-## Learn More
+2. **Configure environment**
+   Copy `.env.example` to `.env` and update:
 
-To learn more about Next.js, take a look at the following resources:
+3. **Install dependencies & generate Prisma client**
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   yarn install
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+4. **Run database migrations**
 
-## Deploy on Vercel
+   ```bash
+   npx prisma migrate dev --name init
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+5. **Start the development server**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   yarn dev
+   ```
+
+   * App:  [http://localhost:3000](http://localhost:3000) (redirects to `/live`)
+   * Live view: [http://localhost:3000/live](http://localhost:3000/live)
+   * History view: [http://localhost:3000/history](http://localhost:3000/history)
+
+## Tech Stack
+
+* **Next.js 15** (App Router)
+
+  * Monorepo style: API routes and frontend in one unified framework, chosen for fast iteration and deployment on Vercel.
+* **React** (Client components)
+
+  * Declarative UI with client/server component model, using a feature organisation folder structure, ideal for real-time interactivity.
+* **Prisma** + **TimescaleDB**
+
+  * Structured ORM with built-in migrations, combined with a powerful time-series extension for efficient historical queries.
+  * Selected for rapid setup locally and in hosted environments, with excellent support for SQL and extensions when using neom.
+* **WebSockets (ws)**
+
+  * Low-level WebSocket library used by our custom hook to ingest live heart-rate streams directly from the source.
+* **Chart.js** + **react-chartjs-2**
+
+  * Widely adopted charting library offering responsive, performant line charts, wrapped in React-friendly components.
+* **Tailwind CSS** & **shadcn/ui**
+
+  * Utility-first styling plus a component library for consistent, rapid UI development.
+* **Jest** + **React Testing Library** + **jest-websocket-mock**
+
+  * Robust test runner (Jest) with DOM testing utilities to verify React components, and a WebSocket mock to simulate real-time data in hook integration tests. Chosen for mature ecosystem and developer familiarity.
+
+## Future Improvements
+
+* **In‑process WS proxy**
+
+  * Own a single WS connection server‑side to persist and broadcast all live data (avoids client POST hack).
+* **Authentication & Multi‑Patient**
+
+  * Secure endpoints and patient‑scoped streams
+* **Alerts & Anomaly Detection**
+
+  * Threshold‑based notifications, rolling‑window analytics
+* **Enhanced UI/UX**
+
+  * URL‑synced date ranges, mobile‑optimized layouts, accessible components
+* **Production Hardening**
+
+  * CI/CD pipelines, monitoring, performance tuning, horizontal scaling
+
+
+
+
+
+
