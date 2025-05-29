@@ -83,7 +83,9 @@
 
   * CI/CD pipelines, monitoring, performance tuning, horizontal scaling
 
+## Questions
 
+I wasn't sure if the historical view should also connect to the websocket, but made the assumption it was a historical view only, but this could be easily changed if required.
 
 
 
