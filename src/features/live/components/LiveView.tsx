@@ -27,10 +27,12 @@ ChartJS.register(
 
 export default function LiveView() {
   const [debug, setDebug] = useState(true);
-    // I would env var normally but for a test I'm just hardcoding the URL switch
-    const url = debug
-    ? 'ws://aide-twwwss-be02d4b95847.herokuapp.com/ws?debug=true'
-    : 'ws://aide-twwwss-be02d4b95847.herokuapp.com/ws';
+  const isProd = process.env.VERCEL_ENV === 'production';
+  const scheme = isProd ? 'wss' : 'ws';
+  // I would env var normally but for a test I'm just hardcoding the URL switch
+  const url = debug
+  ? `${scheme}://aide-twwwss-be02d4b95847.herokuapp.com/ws?debug=true`
+  : `${scheme}://aide-twwwss-be02d4b95847.herokuapp.com/ws`;
 
   const { data: messages, error, status } = useHeartRate(url, 20);
 
