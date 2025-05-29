@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export type RangeOption = '5m' | '1h' | '1d' | 'custom';
 
@@ -41,6 +41,11 @@ export function DateRangePicker({ onChange }: DateRangePickerProps) {
       onChange(fromIso, toIso);
     }
   };
+
+  useEffect(() => {
+    handleOptionChange(option);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="p-4 bg-white rounded shadow space-y-2">
